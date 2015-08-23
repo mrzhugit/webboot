@@ -1,0 +1,11 @@
+# Created by .ignore support plugin (hsz.mobi)
+out
+build
+.gradle
+gradlew
+gradlew.bat
+webboot.iml
+src/main/resources/rebel.xml
+
+.idea/*
+gradle/*
