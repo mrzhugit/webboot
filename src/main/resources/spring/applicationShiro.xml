@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="adminShiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/admin/login.html"></property>
+        <property name="filterChainDefinitions">
+            <value>
+                /admin/*.html = user
+                <!--/admin/suanfa.jsp = perms[1]-->
+                <!--/admin/userlist.jsp = perms[2]-->
+                <!--/admin/hyguanli.jsp = perms[2]-->
+                <!--/admin/hyadd.jsp = perms[3]-->
+                <!--/admin/rule.jsp = perms[4]-->
+                <!--/admin/huodong.jsp = perms[5]-->
+                <!--/admin/admin.jsp = perms[6]-->
+                <!--/logout = logout-->
+                <!--/index.html = anon-->
+            </value>
+        </property>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="adminAuthenticatingRealm"/>
+    </bean>
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean id="adminAuthenticatingRealm" class="com.mrzhu.webboot.shiro.AdminAuthenticatingRealm"></bean>
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+</beans>

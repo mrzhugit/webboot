@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        ">
+
+    <!-- BoneCP configuration -->
+    <bean id="appDataSourceImpl" class="com.jolbox.bonecp.BoneCPDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="${app.jdbc.driver}" />
+        <property name="jdbcUrl" value="${app.jdbc.url}" />
+        <property name="username" value="${app.jdbc.username}" />
+        <property name="password" value="${app.jdbc.password}" />
+
+        <!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
+        <property name="idleConnectionTestPeriod" value="10" />
+        <!-- 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 -->
+        <property name="idleMaxAge" value="10" />
+        <!-- 每个分区最大的连接数 -->
+        <property name="maxConnectionsPerPartition" value="3" />
+        <!-- 每个分区最小的连接数 -->
+        <property name="minConnectionsPerPartition" value="1" />
+        <!-- 分区数 ，默认值2，最小1，推荐3-4，视应用而定 -->
+        <property name="partitionCount" value="3" />
+        <!-- 每次去拿数据库连接的时候一次性要拿几个,默认值：2 -->
+        <property name="acquireIncrement" value="3" />
+        <!-- 缓存prepared statements的大小，默认值：0 -->
+        <property name="statementsCacheSize" value="50" />
+        <!-- 在做keep-alive的时候的SQL语句 -->
+        <property name="connectionTestStatement" value="select 1 from dual" />
+        <!-- 在每次到数据库取连接的时候执行的SQL语句，只执行一次 -->
+        <property name="initSQL" 	value="select 1 ip from dual" />
+    </bean>
+
+
+    <!-- Spring bean configuration. Tell Spring to bounce off BoneCP -->
+    <bean id="appDataSource" class="com.jolbox.bonecp.spring.DynamicDataSourceProxy">
+        <property name="targetDataSource" ref="appDataSourceImpl" />
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+        <property name="targetDataSource" ref="appDataSourceImpl" />
+    </bean>
+
+
+    <!-- Transaction manager for a single JDBC DataSource -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="transactionManager" />
+    </bean>
+
+</beans>
