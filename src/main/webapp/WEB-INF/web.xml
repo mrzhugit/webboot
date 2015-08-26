@@ -5,7 +5,7 @@
          id="webapp" version="2.5">
     <display-name>xianshi_server</display-name>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>login.html</welcome-file>
     </welcome-file-list>
     <context-param>
         <param-name>contextConfigLocation</param-name>
