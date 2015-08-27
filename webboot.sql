@@ -106,3 +106,12 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+
+-- 数据初始化 增加后台主账号, admin/admin
+insert into admin_user
+(login_name,display_name,password,create_time,update_time)
+values
+  ('admin','管理员',md5('adminkey_slot'),now(),now());

@@ -3,6 +3,8 @@ package com.mrzhu.webboot.dao.impl;
 import com.mrzhu.webboot.dao.AdminUserDao;
 import com.mrzhu.webboot.domain.User;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -16,6 +18,8 @@ import java.util.*;
  */
 @Repository
 public class AdminUserDaoImpl implements AdminUserDao {
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Value("${password.key}")
     private String PASSWROD_KEY;
@@ -43,9 +47,13 @@ public class AdminUserDaoImpl implements AdminUserDao {
         param.put("loginName", loginName);
         param.put("password", pass.toLowerCase());
         User user = null;
-        List<User> userList = jdbcTemplate.query(sql.toString(), param, new BeanPropertyRowMapper<User>(User.class));
-        if (userList != null && userList.size() == 1) {
-            user = userList.get(0);
+        try {
+            List<User> userList = jdbcTemplate.query(sql.toString(), param, new BeanPropertyRowMapper<User>(User.class));
+            if (userList != null && userList.size() == 1) {
+                user = userList.get(0);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
         return user;
     }
@@ -84,9 +92,9 @@ public class AdminUserDaoImpl implements AdminUserDao {
         Map<String, Object> param = new HashMap<>();
         param.put("userId", userId);
         List<String> codeList = jdbcTemplate.queryForList(sql.toString(), param, String.class);
-        if(codeList!=null){
+        if (codeList != null) {
             return new HashSet<>(codeList);
-        }else{
+        } else {
             return null;
         }
     }
@@ -108,9 +116,9 @@ public class AdminUserDaoImpl implements AdminUserDao {
         Map<String, Object> param = new HashMap<>();
         param.put("userId", userId);
         List<String> codeList = jdbcTemplate.queryForList(sql.toString(), param, String.class);
-        if(codeList!=null){
+        if (codeList != null) {
             return new HashSet<>(codeList);
-        }else{
+        } else {
             return null;
         }
     }
