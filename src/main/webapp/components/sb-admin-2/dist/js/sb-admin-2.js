@@ -1,6 +1,21 @@
+function initMenu() {
+    $.ajax({
+        type: "POST",
+        url: "element/menu.jsp",
+        success: function (data) {
+            $('#side-menu').html(data);
+            $('#side-menu').metisMenu();
+        },
+        error: function (msg) {
+            alert("网络出现异常,请重试");
+        }
+    });
+}
+
+
 $(function() {
 
-    $('#side-menu').metisMenu();
+    initMenu();
 
 });
 
