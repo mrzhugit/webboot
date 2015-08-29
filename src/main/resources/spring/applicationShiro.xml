@@ -10,9 +10,9 @@
         <property name="loginUrl" value="/admin/login.html"></property>
         <property name="filterChainDefinitions">
             <value>
-                /admin/*.html = user
-                <!--/admin/suanfa.jsp = perms[1]-->
-                <!--/admin/userlist.jsp = perms[2]-->
+                /admin/index.html = user
+                /admin/accountInfo.html = perms[accountInfo]
+                /admin/accountList.html = perms[accountList]
                 <!--/admin/hyguanli.jsp = perms[2]-->
                 <!--/admin/hyadd.jsp = perms[3]-->
                 <!--/admin/rule.jsp = perms[4]-->
