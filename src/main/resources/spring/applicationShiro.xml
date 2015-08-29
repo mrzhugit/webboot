@@ -7,7 +7,7 @@
 
     <bean id="adminShiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/admin/login.html"></property>
+        <property name="loginUrl" value="/admin/login.html"/>
         <property name="filterChainDefinitions">
             <value>
                 /admin/index.html = user
@@ -18,10 +18,13 @@
                 <!--/admin/rule.jsp = perms[4]-->
                 <!--/admin/huodong.jsp = perms[5]-->
                 <!--/admin/admin.jsp = perms[6]-->
-                <!--/logout = logout-->
+                /admin/user/logout = logout
                 <!--/index.html = anon-->
             </value>
         </property>
+    </bean>
+    <bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="/admin/login.html" />
     </bean>
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
