@@ -47,8 +47,8 @@
             ajax: 'account/list', //服务器url
             columns: [ //列信息配置
                 {"data": "id"},
-                {"data": "loginName"},
-                {"data": "displayName"},
+                {"data": "loginName",sortable: false}, //列不支持排序
+                {"data": "displayName",sortable: false}, //列不支持排序
                 {"data": "createTime"},
                 {"data": "updateTime"},
                 {"data": "lastLoginTime"}
