@@ -1,7 +1,9 @@
 package com.mrzhu.webboot.dao;
 
 import com.mrzhu.webboot.domain.User;
+import com.mrzhu.webboot.dto.TableQuery;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,4 +38,12 @@ public interface AdminUserDao {
      * @return
      */
     Set<String> getPermissions(Long userId);
+
+    /**
+     * 分页查询user列表
+     * @param user user属性条件
+     * @param query 分页&排序条件
+     * @return 分页结果
+     */
+    List<User> query(User user, TableQuery query);
 }

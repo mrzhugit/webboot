@@ -25,9 +25,6 @@ public class AdminUserAction {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private AdminUserDao adminUserDao;
-
-    @Autowired
     private SecurityManager securityManager;
 
     /**

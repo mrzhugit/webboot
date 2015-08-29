@@ -2,6 +2,7 @@ package com.mrzhu.webboot.dao.impl;
 
 import com.mrzhu.webboot.dao.AdminUserDao;
 import com.mrzhu.webboot.domain.User;
+import com.mrzhu.webboot.dto.TableQuery;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,6 +122,33 @@ public class AdminUserDaoImpl implements AdminUserDao {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<User> query(User user, TableQuery query) {
+        Map<String, Object> param = new HashMap<>();
+
+        StringBuffer sql = new StringBuffer();
+        sql.append(" SELECT ");
+        sql.append("    u.id, ");
+        sql.append("    u.login_name, ");
+        sql.append("    u.display_name, ");
+        sql.append("    u.password, ");
+        sql.append("    u.last_login_time, ");
+        sql.append("    u.create_time, ");
+        sql.append("    u.update_time ");
+        sql.append(" FROM admin_user u ");
+        sql.append(" WHERE 1 = 1 ");
+
+        if (query != null) {
+            //处理分页
+            if (query.getStart() != null && query.getLength() != null) {
+                sql.append(" limit " + query.getStart() + "," + query.getLength());
+            }
+        }
+
+        List<User> userList = jdbcTemplate.query(sql.toString(), param, new BeanPropertyRowMapper<>(User.class));
+        return userList;
     }
 
     /**
