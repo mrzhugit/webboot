@@ -32,15 +32,17 @@ public class AdminAccountAction {
      */
     @RequestMapping(path = "/list", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonResult list(@RequestParam Map<String, String> param,User user) {
+    public JsonResult list(@RequestParam Map<String, String> param, User user) {
         TableQuery query = ActionUtil.parseTableQuery(param);
         log.debug("account list param:" + query.toString());
         JsonResult result = new JsonResult();
+        int totalUserCount = adminUserDao.totalCount();
+        int userCount = adminUserDao.queryCount(user);
         List<User> users = adminUserDao.query(user, query);
-        result.put("data",users);
-        result.put("draw",query.getDraw());
-        result.put("recordsTotal",100);
-        result.put("recordsFiltered",50);
+        result.put("data", users);
+        result.put("draw", query.getDraw());
+        result.put("recordsTotal", totalUserCount);
+        result.put("recordsFiltered", userCount);
         result.setResult(true);
         return result;
     }

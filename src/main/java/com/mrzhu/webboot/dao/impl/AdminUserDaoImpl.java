@@ -151,6 +151,24 @@ public class AdminUserDaoImpl implements AdminUserDao {
         return userList;
     }
 
+    @Override
+    public int queryCount(User user) {
+        Map<String, Object> param = new HashMap<>();
+
+        StringBuffer sql = new StringBuffer();
+        sql.append(" SELECT ");
+        sql.append("    count(u.id) ");
+        sql.append(" FROM admin_user u ");
+        sql.append(" WHERE 1 = 1 ");
+
+        return jdbcTemplate.queryForObject(sql.toString(), param, Integer.class);
+    }
+
+    @Override
+    public int totalCount() {
+        return jdbcTemplate.queryForObject(" select count(*) from admin_user ", new HashMap<String, Object>(), Integer.class);
+    }
+
     /**
      * 明文加密
      *

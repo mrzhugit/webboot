@@ -46,4 +46,17 @@ public interface AdminUserDao {
      * @return 分页结果
      */
     List<User> query(User user, TableQuery query);
+
+    /**
+     * 查询用户的条数
+     * @param user
+     * @return
+     */
+    int queryCount(User user);
+
+    /**
+     * 总数据条数
+     * @return
+     */
+    int totalCount();
 }
