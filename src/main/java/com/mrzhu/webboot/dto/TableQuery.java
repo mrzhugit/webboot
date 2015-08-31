@@ -7,7 +7,7 @@ package com.mrzhu.webboot.dto;
 public class TableQuery {
     private Integer start; //开始行数
     private Integer length; //加载行数
-    private Integer orderColumn; //排序列index
+    private String orderColumn; //排序列index
     private String orderDir; //排序方式:asc,desc
     private String draw; //请求标记用值
 
@@ -27,11 +27,11 @@ public class TableQuery {
         this.length = length;
     }
 
-    public Integer getOrderColumn() {
+    public String getOrderColumn() {
         return orderColumn;
     }
 
-    public void setOrderColumn(Integer orderColumn) {
+    public void setOrderColumn(String orderColumn) {
         this.orderColumn = orderColumn;
     }
 

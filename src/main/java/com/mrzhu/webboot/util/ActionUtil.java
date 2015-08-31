@@ -22,7 +22,9 @@ public class ActionUtil {
                 query.setLength(length);
             }
 
-            int orderColumn = NumberUtils.toInt(param.get("order[0][column]"), 0);
+            int orderColumnIndex = NumberUtils.toInt(param.get("order[0][column]"), 0);
+
+            String orderColumn = param.get("columns["+orderColumnIndex+"][data]");
             query.setOrderColumn(orderColumn);
 
             query.setOrderDir(param.get("order[0][dir]"));

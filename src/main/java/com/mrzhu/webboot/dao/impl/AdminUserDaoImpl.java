@@ -132,15 +132,15 @@ public class AdminUserDaoImpl implements AdminUserDao {
         StringBuffer sql = new StringBuffer();
         sql.append(" SELECT ");
         sql.append("    u.id, ");
-        sql.append("    u.login_name, ");
-        sql.append("    u.display_name, ");
+        sql.append("    u.login_name loginName, ");
+        sql.append("    u.display_name displayName, ");
         sql.append("    u.password, ");
-        sql.append("    u.last_login_time, ");
-        sql.append("    u.create_time, ");
-        sql.append("    u.update_time ");
+        sql.append("    u.last_login_time lastLoginTime, ");
+        sql.append("    u.create_time createTime, ");
+        sql.append("    u.update_time updateTime ");
         sql.append(" FROM admin_user u ");
         sql.append(" WHERE 1 = 1 ");
-
+        //处理查询条件
         if (user != null && StringUtils.isNoneBlank(user.getLoginName())) {
             sql.append(" and u.login_name like :loginName ");
             param.put("loginName", "%" + user.getLoginName() + "%");
@@ -152,6 +152,10 @@ public class AdminUserDaoImpl implements AdminUserDao {
         }
 
         if (query != null) {
+            if (StringUtils.isNoneBlank(query.getOrderColumn()) && StringUtils.isNoneBlank(query.getOrderDir())) {
+                sql.append(" order by " + query.getOrderColumn() + " " + query.getOrderDir());
+            }
+
             //处理分页
             if (query.getStart() != null && query.getLength() != null) {
                 sql.append(" limit " + query.getStart() + "," + query.getLength());
