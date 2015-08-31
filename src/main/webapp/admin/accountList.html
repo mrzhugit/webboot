@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-lg-12">
         <h3 class="page-header">账户列表</h3>
     </div>
@@ -13,6 +13,16 @@
             <!--</div>-->
             <!-- /.panel-heading -->
             <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="loginName" placeholder="用户名">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="displayName" placeholder="昵称">
+                        </div>
+                        <button type="button" class="btn btn-default" id="searchBtn">查询</button>
+                        <p/>
+                    </form>
                 <div class="dataTable_wrapper">
                     <table class="table table-striped table-bordered table-hover" id="dataTable">
                         <thead>
@@ -38,14 +48,20 @@
 
 <script>
     $(document).ready(function () {
-        $('#dataTable').dataTable({
+        var dataTable = $('#dataTable').dataTable({
             processing: true,//显示处理中
             bFilter: false, //搜索框功
             bStateSave: true,//保存翻页和条数信息到cookie中
             bInfo: true,//页脚信息
             responsive: true,
             serverSide: true, //服务器加载内容
-            ajax: 'account/list', //服务器url
+            ajax: {
+                url: 'account/list',
+                data: function (param) {
+                    param.loginName = $("#loginName").val();
+                    param.displayName = $("#displayName").val();
+                }
+            }, //服务器url
             columns: [ //列信息配置
                 {"data": "id"},
                 {"data": "loginName", sortable: false}, //列不支持排序
@@ -62,5 +78,10 @@
                 }
             ]
         });
+
+        $("#searchBtn").bind("click", function () { //按钮 触发table重新请求服务器
+            dataTable.fnDraw();
+        });
+
     });
 </script>

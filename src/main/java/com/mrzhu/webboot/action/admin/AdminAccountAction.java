@@ -34,7 +34,7 @@ public class AdminAccountAction {
     @ResponseBody
     public JsonResult list(@RequestParam Map<String, String> param, User user) {
         TableQuery query = ActionUtil.parseTableQuery(param);
-        log.debug("account list param:" + query.toString());
+        log.debug("account list param:" + query.toString() + " user:" + user.toString());
         JsonResult result = new JsonResult();
         int totalUserCount = adminUserDao.totalCount();
         int userCount = adminUserDao.queryCount(user);

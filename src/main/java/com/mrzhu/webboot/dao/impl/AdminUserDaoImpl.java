@@ -4,6 +4,7 @@ import com.mrzhu.webboot.dao.AdminUserDao;
 import com.mrzhu.webboot.domain.User;
 import com.mrzhu.webboot.dto.TableQuery;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,6 +141,16 @@ public class AdminUserDaoImpl implements AdminUserDao {
         sql.append(" FROM admin_user u ");
         sql.append(" WHERE 1 = 1 ");
 
+        if (user != null && StringUtils.isNoneBlank(user.getLoginName())) {
+            sql.append(" and u.login_name like :loginName ");
+            param.put("loginName", "%" + user.getLoginName() + "%");
+        }
+
+        if (user != null && StringUtils.isNoneBlank(user.getDisplayName())) {
+            sql.append(" and u.display_name like :displayName ");
+            param.put("displayName", "%" + user.getDisplayName() + "%");
+        }
+
         if (query != null) {
             //处理分页
             if (query.getStart() != null && query.getLength() != null) {
@@ -160,7 +171,15 @@ public class AdminUserDaoImpl implements AdminUserDao {
         sql.append("    count(u.id) ");
         sql.append(" FROM admin_user u ");
         sql.append(" WHERE 1 = 1 ");
+        if (user != null && StringUtils.isNoneBlank(user.getLoginName())) {
+            sql.append(" and u.login_name like :loginName ");
+            param.put("loginName", "%" + user.getLoginName() + "%");
+        }
 
+        if (user != null && StringUtils.isNoneBlank(user.getDisplayName())) {
+            sql.append(" and u.display_name like :displayName ");
+            param.put("displayName", "%" + user.getDisplayName() + "%");
+        }
         return jdbcTemplate.queryForObject(sql.toString(), param, Integer.class);
     }
 
