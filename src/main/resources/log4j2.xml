@@ -26,10 +26,16 @@
             <AppenderRef ref="Async" level="trace"/>
         </logger>
         <logger name="org.springframework" additivity="false" level="warn">
-            <AppenderRef ref="Async" level="warn"/>
+            <AppenderRef ref="Console" level="warn"/>
         </logger>
-        <root level="info">
-            <AppenderRef ref="Async"/>
+        <logger name="org.springframework.jdbc.core.JdbcTemplate" additivity="false" level="debug">
+            <AppenderRef ref="Console" level="debug"/>
+        </logger>
+        <logger name="java.sql" additivity="false" level="debug">
+            <AppenderRef ref="Console" level="debug"/>
+        </logger>
+        <root level="debug">
+            <AppenderRef ref="Console"/>
         </root>
     </loggers>
 </configuration>

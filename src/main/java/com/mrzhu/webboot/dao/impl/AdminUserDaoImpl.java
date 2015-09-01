@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -200,7 +201,9 @@ public class AdminUserDaoImpl implements AdminUserDao {
         return jdbcTemplate.queryForObject(sql.toString(), param, Integer.class);
     }
 
+
     @Override
+    @Cacheable(value = "count")
     public int totalCount() {
         return jdbcTemplate.queryForObject(" select count(*) from admin_user ", new HashMap<String, Object>(), Integer.class);
     }
