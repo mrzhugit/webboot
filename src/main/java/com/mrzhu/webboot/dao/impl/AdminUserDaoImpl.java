@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -53,11 +54,23 @@ public class AdminUserDaoImpl implements AdminUserDao {
             List<User> userList = jdbcTemplate.query(sql.toString(), param, new BeanPropertyRowMapper<User>(User.class));
             if (userList != null && userList.size() == 1) {
                 user = userList.get(0);
+                updateLastLoginInfo(user); //更新最后登录时间
+                addLoginLog(user); //记录最后登录时间
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
         return user;
+    }
+
+    private void addLoginLog(User user){
+        String sql = " insert into admin_user_login_log (admin_user_id,login_time) values (:id,now()) ";
+        jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(user));
+    }
+
+    private void updateLastLoginInfo(User user){
+        String sql = " update admin_user set last_login_time = now()  where id=:id ";
+        jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(user));
     }
 
     @Override

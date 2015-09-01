@@ -107,6 +107,22 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+-- -----------------------------------------------------
+-- Table `webboot`.`admin_user_login_log`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `admin_user_login_log` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '',
+  `login_time` DATETIME NULL COMMENT '登录时间',
+  `admin_user_id` BIGINT(20) NOT NULL COMMENT '',
+  PRIMARY KEY (`id`, `admin_user_id`)  COMMENT '',
+  INDEX `fk_admin_user_login_log_admin_user1_idx` (`admin_user_id` ASC)  COMMENT '',
+  CONSTRAINT `fk_admin_user_login_log_admin_user1`
+    FOREIGN KEY (`admin_user_id`)
+    REFERENCES admin_user (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+COMMENT = 'admin用户登录表';
 
 
 
