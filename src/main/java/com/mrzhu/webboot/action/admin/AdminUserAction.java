@@ -1,6 +1,5 @@
 package com.mrzhu.webboot.action.admin;
 
-import com.mrzhu.webboot.dao.AdminUserDao;
 import com.mrzhu.webboot.dto.JsonResult;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by mrzhu on 8/25/15.
@@ -32,11 +29,14 @@ public class AdminUserAction {
      */
     @RequestMapping(path = "/login", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonResult login(String loginName, String password) {
+    public JsonResult login(String loginName, String password, Boolean rememberMe) {
         JsonResult result = new JsonResult();
         SecurityUtils.setSecurityManager(securityManager);
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(loginName, password);
+        if (rememberMe != null && rememberMe) {
+            token.setRememberMe(true);
+        }
         try {
             subject.login(token);
         } catch (AuthenticationException e) {
