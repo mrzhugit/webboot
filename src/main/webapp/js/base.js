@@ -15,3 +15,18 @@ function loadPage(pageUrl, appendId) {
         }
     });
 }
+
+
+function appAlert(message){
+    $("#alertModalBody").html(message);
+    $('#alertModal').modal("show");
+}
+
+function appConfirm(message,backCall){
+    $("#confirmModalBody").html(message);
+    $('#confirmModal').modal("show");
+    $("#confirmTrueBtn").on("click",function(){
+        $('#confirmModal').modal("hide");
+        backCall();
+    });
+}
