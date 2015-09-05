@@ -21,6 +21,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/admin/account")
+@ResponseBody
 public class AdminAccountAction {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -31,7 +32,6 @@ public class AdminAccountAction {
      * 用户登陆
      */
     @RequestMapping(path = "/list", produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
     public JsonResult list(@RequestParam Map<String, String> param, User user) {
         TableQuery query = ActionUtil.parseTableQuery(param);
         log.debug("account list param:" + query.toString() + " user:" + user.toString());

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/admin/user")
+@ResponseBody
 public class AdminUserAction {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -28,7 +29,6 @@ public class AdminUserAction {
      * 用户登陆
      */
     @RequestMapping(path = "/login", produces = {"application/json;charset=UTF-8"})
-    @ResponseBody
     public JsonResult login(String loginName, String password, Boolean rememberMe) {
         JsonResult result = new JsonResult();
         SecurityUtils.setSecurityManager(securityManager);
