@@ -105,8 +105,8 @@ public class AdminUserDaoImpl implements AdminUserDao {
         sql.append(" FROM admin_user_role ur LEFT JOIN role r ON ur.role_id = r.id ");
         sql.append(" WHERE ur.admin_user_id = :userId ");
 
-        Map<String, Object> param = new HashMap<>();
-        param.put("userId", userId);
+        Map<String, Object> param = Collections.singletonMap("userId", userId);
+
         List<String> codeList = jdbcTemplate.queryForList(sql.toString(), param, String.class);
         if (codeList != null) {
             return new HashSet<>(codeList);
@@ -129,8 +129,8 @@ public class AdminUserDaoImpl implements AdminUserDao {
         sql.append("                                    FROM admin_user_role ");
         sql.append("                                    WHERE admin_user_id = :userId)) ");
 
-        Map<String, Object> param = new HashMap<>();
-        param.put("userId", userId);
+        Map<String, Object> param = Collections.singletonMap("userId", userId);
+
         List<String> codeList = jdbcTemplate.queryForList(sql.toString(), param, String.class);
         if (codeList != null) {
             return new HashSet<>(codeList);
@@ -205,7 +205,7 @@ public class AdminUserDaoImpl implements AdminUserDao {
     @Override
     @Cacheable(value = "count")
     public int totalCount() {
-        return jdbcTemplate.queryForObject(" select count(*) from admin_user ", new HashMap<String, Object>(), Integer.class);
+        return jdbcTemplate.queryForObject(" select count(*) from admin_user ", Collections.emptyMap(), Integer.class);
     }
 
     /**
