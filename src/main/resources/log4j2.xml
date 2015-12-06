@@ -25,6 +25,9 @@
         <logger name="com.mrzhu.webboot" additivity="false" level="trace">
             <AppenderRef ref="Async" level="trace"/>
         </logger>
+        <logger name="com.jolbox.bonecp" additivity="false" level="debug">
+            <AppenderRef ref="Console" level="debug"/>
+        </logger>
         <logger name="org.springframework" additivity="false" level="warn">
             <AppenderRef ref="Console" level="warn"/>
         </logger>

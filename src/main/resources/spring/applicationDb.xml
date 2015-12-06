@@ -13,10 +13,6 @@
         <property name="username" value="${app.jdbc.username}" />
         <property name="password" value="${app.jdbc.password}" />
 
-        <!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
-        <property name="idleConnectionTestPeriod" value="10" />
-        <!-- 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 -->
-        <property name="idleMaxAge" value="10" />
         <!-- 每个分区最大的连接数 -->
         <property name="maxConnectionsPerPartition" value="3" />
         <!-- 每个分区最小的连接数 -->
@@ -31,6 +27,7 @@
         <property name="connectionTestStatement" value="select 1 from dual" />
         <!-- 在每次到数据库取连接的时候执行的SQL语句，只执行一次 -->
         <property name="initSQL" 	value="select 1 ip from dual" />
+        <property name="logStatementsEnabled" value="true"/>
     </bean>
 
 
