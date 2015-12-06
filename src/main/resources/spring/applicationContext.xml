@@ -12,14 +12,17 @@
         <property name="configLocation" value="classpath:spring/ehcache.xml"/>
         <property name="shared" value="true"/>
     </bean>
-    <bean id="cacheManager"  class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
         <property name="cacheManager" ref="cacheManagerFactory"/>
     </bean>
 
     <cache:annotation-driven cache-manager="cacheManager"/>
 
     <context:annotation-config/>
-    <context:component-scan base-package="com.mrzhu.webboot.*"/>
+    <context:component-scan base-package="com.mrzhu.webboot">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
     <bean id="propertyPlaceholderConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -29,7 +32,6 @@
             </list>
         </property>
     </bean>
-
 
 
 </beans>
